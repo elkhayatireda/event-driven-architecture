@@ -47,4 +47,5 @@ public class AccountServiceImpl implements AccountService {
         BankAccountResponseDTO bankAccountResponseDTO=accountMapper.fromBankAccount(saveBankAccount);
         return bankAccountResponseDTO;
     }
+
 }
