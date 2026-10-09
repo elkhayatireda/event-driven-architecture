@@ -3,6 +3,7 @@ package com.bayi.bank_account_service.web;
 import com.bayi.bank_account_service.dto.BankAccountRequestDTO;
 import com.bayi.bank_account_service.dto.BankAccountResponseDTO;
 import com.bayi.bank_account_service.entities.BankAccount;
+import com.bayi.bank_account_service.mappers.AccountMapper;
 import com.bayi.bank_account_service.repositories.BankAccountRepository;
 import com.bayi.bank_account_service.service.AccountService;
 import com.bayi.bank_account_service.service.AccountServiceImpl;
@@ -18,10 +19,12 @@ public class AccountRestController
 {
     private BankAccountRepository bankAccountRepository;
     private AccountService accountService;
+    private AccountMapper accountMapper;
 
-    public AccountRestController(BankAccountRepository bankAccountRepository, AccountService accountService) {
+    public AccountRestController(BankAccountRepository bankAccountRepository, AccountService accountService, AccountMapper accountMapper) {
         this.bankAccountRepository = bankAccountRepository;
         this.accountService = accountService;
+        this.accountMapper = accountMapper;
     }
 
     @GetMapping("/bankAccounts")
