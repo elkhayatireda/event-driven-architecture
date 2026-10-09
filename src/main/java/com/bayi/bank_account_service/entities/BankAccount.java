@@ -1,10 +1,7 @@
 package com.bayi.bank_account_service.entities;
 
 import com.bayi.bank_account_service.enums.AccountType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,10 +12,11 @@ import java.util.Date;
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
 public class BankAccount {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private String id;
     private Date createdAt;
     private double balance;
     private String currency;
+    @Enumerated(EnumType.STRING)
     private AccountType type;
 }
