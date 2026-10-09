@@ -1,7 +1,11 @@
 package com.bayi.bank_account_service.web;
 
+import com.bayi.bank_account_service.dto.BankAccountRequestDTO;
+import com.bayi.bank_account_service.dto.BankAccountResponseDTO;
 import com.bayi.bank_account_service.entities.BankAccount;
 import com.bayi.bank_account_service.repositories.BankAccountRepository;
+import com.bayi.bank_account_service.service.AccountService;
+import com.bayi.bank_account_service.service.AccountServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -13,9 +17,11 @@ import java.util.UUID;
 public class AccountRestController
 {
     private BankAccountRepository bankAccountRepository;
+    private AccountService accountService;
 
-    public AccountRestController(BankAccountRepository bankAccountRepository) {
+    public AccountRestController(BankAccountRepository bankAccountRepository, AccountService accountService) {
         this.bankAccountRepository = bankAccountRepository;
+        this.accountService = accountService;
     }
 
     @GetMapping("/bankAccounts")
@@ -29,9 +35,8 @@ public class AccountRestController
     }
 
     @PostMapping("/bankAccounts")
-    public BankAccount save(@RequestBody BankAccount bankAccount) {
-        if(bankAccount.getId()==null) bankAccount.setId(UUID.randomUUID().toString());
-        return bankAccountRepository.save(bankAccount);
+    public BankAccountResponseDTO save(@RequestBody BankAccountRequestDTO requestDTO) {
+        return accountService.addAccount(requestDTO);
     }
 
     @PutMapping("/bankAccounts/{id}")
