@@ -3,7 +3,9 @@ package com.bayi.bank_account_service.web;
 import com.bayi.bank_account_service.dto.BankAccountRequestDTO;
 import com.bayi.bank_account_service.dto.BankAccountResponseDTO;
 import com.bayi.bank_account_service.entities.BankAccount;
+import com.bayi.bank_account_service.entities.Customer;
 import com.bayi.bank_account_service.repositories.BankAccountRepository;
+import com.bayi.bank_account_service.repositories.CustomerRepository;
 import com.bayi.bank_account_service.service.AccountService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,6 +26,9 @@ public class BankAccountGraphQLController {
 
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private CustomerRepository customerRepository;
+
     @QueryMapping
     public List<BankAccount> accountsList() {
         return bankAccountRepository.findAll();
@@ -49,7 +54,10 @@ public class BankAccountGraphQLController {
          bankAccountRepository.deleteById(id);
          return true;
     }
-
+    @QueryMapping
+    public List<Customer> customers() {
+        return customerRepository.findAll();
+    }
 }
 
 //record BankAccountDTO(Double balance, String type, String currency){
