@@ -13,6 +13,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Exposes REST endpoints for listing, retrieving, creating, updating, and deleting bank accounts.
+ */
 @RestController
 @RequestMapping("/api")
 public class AccountRestController
@@ -27,21 +30,25 @@ public class AccountRestController
         this.accountMapper = accountMapper;
     }
 
+    /** Returns all bank accounts. */
     @GetMapping("/bankAccounts")
     public List<BankAccount> getBankAccounts() {
         return bankAccountRepository.findAll();
     }
 
+    /** Returns the bank account with the requested identifier. */
     @GetMapping("/bankAccounts/{id}")
     public BankAccount bankAccount(@PathVariable String id) {
         return bankAccountRepository.findById(id).orElseThrow(()->new RuntimeException(String.format("Bank account not found")));
     }
 
+    /** Creates a bank account from the supplied request data. */
     @PostMapping("/bankAccounts")
     public BankAccountResponseDTO save(@RequestBody BankAccountRequestDTO requestDTO) {
         return accountService.addAccount(requestDTO);
     }
 
+    /** Updates the supplied fields of an existing bank account. */
     @PutMapping("/bankAccounts/{id}")
     public BankAccount update(@PathVariable String id,@RequestBody BankAccount bankAccount) {
        BankAccount account=bankAccountRepository.findById(id).orElse(null);
@@ -52,6 +59,7 @@ public class AccountRestController
        return bankAccountRepository.save(account);
     }
 
+    /** Deletes the bank account with the requested identifier. */
     @DeleteMapping("/bankAccounts/{id}")
     public void deleteAccount(@PathVariable String id) {
          bankAccountRepository.deleteById(id);

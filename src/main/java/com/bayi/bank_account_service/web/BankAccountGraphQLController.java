@@ -18,6 +18,9 @@ import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
+/**
+ * Handles GraphQL queries and mutations for bank accounts and customers.
+ */
 @Controller
 public class BankAccountGraphQLController {
 
@@ -29,37 +32,42 @@ public class BankAccountGraphQLController {
     @Autowired
     private CustomerRepository customerRepository;
 
+    /** Returns all bank accounts. */
     @QueryMapping
     public List<BankAccount> accountsList() {
         return bankAccountRepository.findAll();
     }
 
+    /** Finds a bank account by its identifier. */
     @QueryMapping
     public BankAccount bankAccountById(@Argument String id) {
         return bankAccountRepository.findById( id).orElseThrow(()->new RuntimeException(String.format("Bank account with id %s not found", id)));
     }
 
+    /** Creates a bank account from the supplied input. */
     @MutationMapping
     public BankAccountResponseDTO addAccount(@Argument BankAccountRequestDTO bankAccount) {
         return accountService.addAccount(bankAccount);
     }
 
+    /** Updates a bank account using the supplied input. */
     @MutationMapping
     public BankAccountResponseDTO updateAccount(@Argument String id, @Argument BankAccountRequestDTO bankAccount) {
         return accountService.updateAccount(id,bankAccount);
     }
 
+    /** Deletes the bank account with the requested identifier. */
     @MutationMapping
     public Boolean deleteAccount(@Argument String id) {
          bankAccountRepository.deleteById(id);
          return true;
     }
+
+    /** Returns all customers. */
     @QueryMapping
     public List<Customer> customers() {
         return customerRepository.findAll();
     }
 }
 
-//record BankAccountDTO(Double balance, String type, String currency){
-//
-//}
+// The GraphQL schema declares the account input type.
